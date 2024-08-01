@@ -1,7 +1,13 @@
+import { FilterLead } from './components/Filter';
+import { Header } from './components/Header';
+import GlobalStyle from './styles/GlobalStyles';
+
 function App() {
   return (
     <>
-      <div className="lucas">Hello world</div>
+      <GlobalStyle />
+      <Header />
+      <FilterLead />
     </>
   );
 }

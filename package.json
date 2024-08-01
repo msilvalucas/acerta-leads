@@ -19,7 +19,8 @@
     "react-input-mask": "^2.0.4",
     "react-router-dom": "^6.25.1",
     "react-toastify": "^10.0.5",
-    "styled-components": "^6.1.12"
+    "styled-components": "^6.1.12",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
