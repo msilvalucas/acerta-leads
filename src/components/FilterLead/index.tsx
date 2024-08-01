@@ -1,13 +1,13 @@
-import { Card } from '../Card/styles';
+import * as C from './styles';
 import Input from '../Input';
 
 export const FilterLead = () => {
   return (
     <>
-      <Card>
+      <C.Card>
         <Input label="CPF" />
         <Input label="CPF" />
-      </Card>
+      </C.Card>
     </>
   );
 };
