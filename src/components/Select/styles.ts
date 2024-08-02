@@ -8,8 +8,7 @@ export const Container = styled.div`
     margin-bottom: 4px;
   }
 
-  input,
-  textarea {
+  select {
     display: block;
     border: 1px solid #dce1e5;
     width: 100%;
@@ -28,7 +27,8 @@ export const Container = styled.div`
   }
 
   input:focus,
-  textarea:focus {
+  textarea:focus,
+  select:focus {
     outline: none;
     border-color: #198cff;
     background-color: #f5f6fa;

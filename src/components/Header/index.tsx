@@ -1,21 +1,24 @@
-import { FilterLead } from '../FilterLead';
+import { useNavigate } from 'react-router-dom';
 import Logo from './../../assets/logo.svg';
 import IconPlus from './../../assets/plus.svg';
 import * as C from './styles';
 
 export const Header = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/register-lead');
+  };
+
   return (
     <C.Container>
       <Logo />
-
-      <div className="wrapper">
-        <h2>Consulta de Leads</h2>
-        <button className="button-newlead">
+      <C.Wrapper>
+        <C.Title>Consulta de Leads</C.Title>
+        <C.ButtonNewLead onClick={handleClick}>
           Novo Lead <IconPlus />
-        </button>
-      </div>
-
-      <FilterLead />
+        </C.ButtonNewLead>
+      </C.Wrapper>
     </C.Container>
   );
 };

@@ -1,7 +1,1 @@
-import axios from 'axios';
-
-const api = axios.create({
-  baseURL: '',
-});
-
-export default api;
+export const API_URL = 'http://localhost:3333/leads';
