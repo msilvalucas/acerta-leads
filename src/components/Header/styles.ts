@@ -8,35 +8,41 @@ export const Container = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
+`;
 
-  h2 {
-    color: #252433;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 120%;
-  }
+export const Title = styled.h2`
+  color: #252433;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+`;
 
-  .wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+export const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
-  .button-newlead {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border-radius: 4px;
-    border: 1px solid #198cff;
-    background-color: #fff;
-    color: #198cff;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 150%;
-    cursor: pointer;
+export const ButtonNewLead = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 1px solid #198cff;
+  background-color: #fff;
+  color: #198cff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #214d74;
+    border: 1px solid #214d74;
+    transition: all 0.3s ease-out;
   }
 `;

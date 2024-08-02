@@ -1,15 +1,26 @@
 import React from 'react';
+import InputMask from 'react-input-mask';
+import * as C from './styles';
 
-type InputProps = React.ComponentProps<'input'> & {
+type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label: string;
+  mask?: string;
 };
 
-const Input = ({ label, ...props }: InputProps) => {
+const Input: React.FC<InputProps> = ({ label, mask, ...props }) => {
   return (
-    <div style={{ marginBottom: '1rem' }}>
+    <C.Container>
       <label htmlFor={label}>{label}</label>
-      <input id={label} name={label} type="text" {...props} />
-    </div>
+      {mask ? (
+        <>
+          <InputMask id={label} name={label} mask={mask} {...props} />
+        </>
+      ) : (
+        <>
+          <input id={label} name={label} {...props} />
+        </>
+      )}
+    </C.Container>
   );
 };
 
