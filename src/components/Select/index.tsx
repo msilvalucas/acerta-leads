@@ -1,11 +1,14 @@
 import React from 'react';
-
 import * as C from './styles';
-import { MARITAL_STATUS } from '../../models';
+
+type Option = {
+  value: string;
+  label: string;
+};
 
 type SelectProps = React.ComponentProps<'select'> & {
   label: string;
-  options: typeof MARITAL_STATUS;
+  options: Option[]; // Atualizado para ser um array de opções
   defaultValue?: string;
 };
 
@@ -14,9 +17,9 @@ const Select = ({ label, options, ...props }: SelectProps) => {
     <C.Container>
       <label htmlFor={label}>{label}</label>
       <select id={label} name={label} {...props}>
-        {Object.values(options).map((option) => (
-          <option key={option} value={option}>
-            {option}
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

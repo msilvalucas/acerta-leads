@@ -6,6 +6,7 @@ import Select from '../../Select';
 import { useNavigate } from 'react-router-dom';
 import { MdPersonOutline } from 'react-icons/md';
 import { MARITAL_STATUS } from '../../../types/enums';
+import { maritalStatusOptions } from '../../../types/maritalStatusOptions';
 
 interface FormValues {
   id?: string;
@@ -93,11 +94,12 @@ const PersonalData = (props: Props & FormikProps<FormValues>) => {
 
       <C.Wrapper>
         <Select
-          label="Estado civil"
-          options={Object.values(MARITAL_STATUS)}
+          label="Estado Civil"
+          options={maritalStatusOptions}
           onChange={handleMaritalStatusChange}
           value={values.maritalStatus}
         />
+
         {touched.maritalStatus && errors.maritalStatus && (
           <span>{errors.maritalStatus}</span>
         )}
