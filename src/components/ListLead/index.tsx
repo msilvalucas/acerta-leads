@@ -1,34 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import LeadTable from './../LeadTable';
-import { Lead } from '../../types/lead';
+import { Lead, LeadFilters } from '../../types/lead';
 import * as C from './styles';
 import { toast } from 'react-toastify';
 import { deleteLead, fetchLeads } from '../../services/leads';
+import { FilterLead } from '../FilterLead';
+import { useNavigate } from 'react-router-dom';
 
 const ListLead: React.FC = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [filteredLeads, setFilteredLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [filters, setFilters] = useState<LeadFilters>({ suid: '', name: '' });
+
+  const navigate = useNavigate();
+
+  const loadLeads = async () => {
+    try {
+      setLoading(true);
+      const leadsData = await fetchLeads(filters);
+      setLeads(leadsData);
+      setFilteredLeads(leadsData);
+    } catch (err) {
+      setError('Erro ao listar leads.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const applyFilters = (leads: Lead[], filters: LeadFilters) => {
+    const { suid, name } = filters;
+    const lowerCaseName = name.toLowerCase();
+
+    return leads.filter((lead) => {
+      const suidMatches = suid ? lead.suid.includes(suid) : true;
+      const nameMatches = name
+        ? lead.name.toLowerCase().includes(lowerCaseName)
+        : true;
+
+      return suidMatches && nameMatches;
+    });
+  };
 
   useEffect(() => {
-    const loadLeads = async () => {
-      try {
-        setLoading(true);
-        const leadsData = await fetchLeads();
-        setLeads(leadsData);
-      } catch (err) {
-        setError('Failed to load leads.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadLeads();
   }, []);
 
+  useEffect(() => {
+    const newFilteredLeads = applyFilters(leads, filters);
+    setFilteredLeads(newFilteredLeads);
+  }, [leads, filters]);
+
+  const handleFilter = (newFilters: LeadFilters) => {
+    setFilters(newFilters);
+  };
+
   const handleEdit = (lead: Lead) => {
-    console.log('Edit lead:', lead);
-    // Adicione a lógica para editar o lead
+    navigate(`/register-lead/${lead.id}`);
   };
 
   const handleDelete = async (id: string) => {
@@ -55,13 +84,20 @@ const ListLead: React.FC = () => {
     );
 
   return (
-    <C.Container>
-      {leads.length === 0 ? (
-        <p>Nenhum lead cadastrado</p>
-      ) : (
-        <LeadTable leads={leads} onEdit={handleEdit} onDelete={handleDelete} />
-      )}
-    </C.Container>
+    <>
+      <FilterLead onFilter={handleFilter} />
+      <C.Container>
+        {filteredLeads.length === 0 ? (
+          <p>Nenhum lead cadastrado</p>
+        ) : (
+          <LeadTable
+            leads={filteredLeads}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        )}
+      </C.Container>
+    </>
   );
 };
 

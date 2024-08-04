@@ -8,7 +8,6 @@ import React, {
 type StepperContextProps = {
   currentStep: number;
   nextStep: () => void;
-  // prevStep: () => void;
   completeStep: () => void;
   isStepCompleted: (step: number) => boolean;
 };
@@ -24,7 +23,6 @@ export const StepperProvider: React.FC<PropsWithChildren> = ({
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
 
   const nextStep = () => setCurrentStep((prev) => prev + 1);
-  // const prevStep = () => setCurrentStep((prev) => (prev > 0 ? prev - 1 : 0));
   const completeStep = () => {
     setCompletedSteps((prev) => new Set(prev).add(currentStep));
   };

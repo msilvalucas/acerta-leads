@@ -1,4 +1,3 @@
-import { FilterLead } from './components/FilterLead';
 import { Header } from './components/Header';
 import ListLead from './components/ListLead';
 
@@ -13,7 +12,6 @@ function App() {
       <GlobalStyle />
       <ToastContainer />
       <Header />
-      <FilterLead />
       <ListLead />
     </>
   );

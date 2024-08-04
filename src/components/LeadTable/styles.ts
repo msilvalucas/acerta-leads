@@ -15,12 +15,21 @@ export const Table = styled.table`
     border-bottom: 1px solid #ddd;
   }
 
+  td:last-child {
+    width: 130px;
+
+    & button {
+      border-radius: 50%;
+      background: transparent;
+    }
+  }
+
   th {
     background-color: #f4f5f7;
   }
 
   tr:nth-child(even) {
-    background-color: #ff;
+    background-color: #f5f6fa;
   }
 
   button {
@@ -35,5 +44,31 @@ export const Table = styled.table`
 
   button:hover {
     background-color: #0056b3;
+  }
+`;
+
+export const Pagination = styled.div`
+  max-width: 1082px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+
+  button {
+    padding: 12px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  button:disabled {
+    opacity: 0.5;
   }
 `;
