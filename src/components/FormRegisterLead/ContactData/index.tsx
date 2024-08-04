@@ -88,7 +88,7 @@ const EnhancedFormContactData = withFormik<Props, FormValues>({
     } finally {
       setTimeout(() => {
         setSubmitting(false);
-      }, 5000);
+      }, 3500);
     }
   },
   mapPropsToValues: ({ values }) => ({

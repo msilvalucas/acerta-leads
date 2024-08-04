@@ -63,7 +63,7 @@ function RegisterLead() {
           updateLead(id, updatedValues)
             .then(() => {
               toast.success('Lead atualizado com sucesso!');
-              setTimeout(() => navigate('/'), 5000);
+              setTimeout(() => navigate('/'), 3500);
             })
             .catch((error) => {
               toast.error('Erro ao atualizar lead: ' + error.message);
@@ -72,7 +72,7 @@ function RegisterLead() {
           createLead(updatedValues)
             .then(() => {
               toast.success('Lead cadastrado com sucesso!');
-              setTimeout(() => navigate('/'), 5000);
+              setTimeout(() => navigate('/'), 3500);
             })
             .catch((error) => {
               toast.error('Erro ao cadastrar lead: ' + error.message);
