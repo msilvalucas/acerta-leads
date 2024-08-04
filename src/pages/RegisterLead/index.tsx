@@ -37,21 +37,21 @@ function RegisterLead() {
     phone: '',
   });
 
-  const [loading, setLoading] = useState(true); // Adiciona estado de loading
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (id) {
       fetchLeadById(id)
         .then((lead) => {
           setValues(lead);
-          setLoading(false); // Dados carregados, desativa o loading
+          setLoading(false);
         })
         .catch((error) => {
           toast.error('Erro ao carregar lead: ' + error.message);
-          setLoading(false); // Em caso de erro, desativa o loading
+          setLoading(false);
         });
     } else {
-      setLoading(false); // Se não houver id, desativa o loading imediatamente
+      setLoading(false);
     }
   }, [id]);
 
@@ -87,7 +87,7 @@ function RegisterLead() {
   };
 
   if (loading) {
-    return <div>Carregando...</div>; // Exibe mensagem de carregamento
+    return <div>Carregando...</div>;
   }
 
   return (

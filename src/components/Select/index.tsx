@@ -8,7 +8,7 @@ type Option = {
 
 type SelectProps = React.ComponentProps<'select'> & {
   label: string;
-  options: Option[]; // Atualizado para ser um array de opções
+  options: Option[];
   defaultValue?: string;
 };
 
