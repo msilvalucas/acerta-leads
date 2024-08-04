@@ -53,7 +53,11 @@ export const ButtonNextStep = styled.button`
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
-  line-height: 150%; /* 24px */
+  line-height: 150%;
+
+  &:disabled {
+    opacity: 0.6;
+  }
 `;
 
 export const ButtonCancel = styled.button`

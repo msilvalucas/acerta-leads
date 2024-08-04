@@ -34,4 +34,16 @@ export const Container = styled.div`
     background-color: #f5f6fa;
     box-shadow: 0 0 0 3px #198cff;
   }
+
+  input:disabled {
+    border: 1px solid #dce1e5;
+    background-color: #f4f5f7;
+  }
+`;
+
+export const Error = styled.span`
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
 `;

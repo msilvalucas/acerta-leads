@@ -1,6 +1,6 @@
-// src/components/FormRegisterLead/PersonalData/index.tsx
 import React from 'react';
 import { FormikProps, withFormik } from 'formik';
+import * as Yup from 'yup';
 import * as C from './styles';
 import Input from '../../Input';
 import Select from '../../Select';
@@ -78,8 +78,8 @@ const PersonalData = (props: Props & FormikProps<FormValues>) => {
           onBlur={handleBlur}
           value={values.suid}
           name="suid"
+          error={touched.suid ? errors.suid : undefined}
         />
-        {touched.suid && errors.suid && <span>{errors.suid}</span>}
 
         <Input
           type="text"
@@ -89,8 +89,8 @@ const PersonalData = (props: Props & FormikProps<FormValues>) => {
           onBlur={handleBlur}
           value={values.name}
           name="name"
+          error={touched.name ? errors.name : undefined}
         />
-        {touched.name && errors.name && <span>{errors.name}</span>}
       </C.Wrapper>
 
       <C.Wrapper>
@@ -100,10 +100,6 @@ const PersonalData = (props: Props & FormikProps<FormValues>) => {
           onChange={handleMaritalStatusChange}
           value={values.maritalStatus}
         />
-
-        {touched.maritalStatus && errors.maritalStatus && (
-          <span>{errors.maritalStatus}</span>
-        )}
 
         <Input
           type="text"
@@ -115,9 +111,6 @@ const PersonalData = (props: Props & FormikProps<FormValues>) => {
           name="nameSpouse"
           disabled={values.maritalStatus !== MARITAL_STATUS.MARRIED}
         />
-        {touched.nameSpouse && errors.nameSpouse && (
-          <span>{errors.nameSpouse}</span>
-        )}
       </C.Wrapper>
 
       <C.WrapperEnd>
@@ -130,15 +123,23 @@ const PersonalData = (props: Props & FormikProps<FormValues>) => {
   );
 };
 
+const validationSchema = Yup.object().shape({
+  suid: Yup.string()
+    .required('CPF é obrigatório')
+    .matches(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido'),
+  name: Yup.string().required('Nome é obrigatório'),
+});
+
 const EnhancedFormPersonalData = withFormik<Props, FormValues>({
+  validationSchema: validationSchema,
   handleSubmit: (values, { props: { onSubmit } }) => {
     onSubmit(values);
   },
   mapPropsToValues: ({ values }) => ({
-    maritalStatus: values.maritalStatus,
-    name: values.name,
-    nameSpouse: values.nameSpouse,
-    suid: values.suid,
+    suid: values.suid || '',
+    name: values.name || '',
+    maritalStatus: values.maritalStatus || undefined,
+    nameSpouse: values.nameSpouse || '',
   }),
 })(PersonalData);
 

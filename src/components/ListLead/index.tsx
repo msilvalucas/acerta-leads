@@ -9,17 +9,19 @@ import { useNavigate } from 'react-router-dom';
 
 const ListLead: React.FC = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
+  const [filteredLeads, setFilteredLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<LeadFilters>({ suid: '', name: '' });
 
   const navigate = useNavigate();
 
-  const loadLeads = async (filters: LeadFilters) => {
+  const loadLeads = async () => {
     try {
       setLoading(true);
       const leadsData = await fetchLeads(filters);
       setLeads(leadsData);
+      setFilteredLeads(leadsData);
     } catch (err) {
       setError('Erro ao listar leads.');
     } finally {
@@ -27,9 +29,28 @@ const ListLead: React.FC = () => {
     }
   };
 
+  const applyFilters = (leads: Lead[], filters: LeadFilters) => {
+    const { suid, name } = filters;
+    const lowerCaseName = name.toLowerCase();
+
+    return leads.filter((lead) => {
+      const suidMatches = suid ? lead.suid.includes(suid) : true;
+      const nameMatches = name
+        ? lead.name.toLowerCase().includes(lowerCaseName)
+        : true;
+
+      return suidMatches && nameMatches;
+    });
+  };
+
   useEffect(() => {
-    loadLeads(filters);
-  }, [filters]);
+    loadLeads();
+  }, []);
+
+  useEffect(() => {
+    const newFilteredLeads = applyFilters(leads, filters);
+    setFilteredLeads(newFilteredLeads);
+  }, [leads, filters]);
 
   const handleFilter = (newFilters: LeadFilters) => {
     setFilters(newFilters);
@@ -66,11 +87,11 @@ const ListLead: React.FC = () => {
     <>
       <FilterLead onFilter={handleFilter} />
       <C.Container>
-        {leads.length === 0 ? (
+        {filteredLeads.length === 0 ? (
           <p>Nenhum lead cadastrado</p>
         ) : (
           <LeadTable
-            leads={leads}
+            leads={filteredLeads}
             onEdit={handleEdit}
             onDelete={handleDelete}
           />

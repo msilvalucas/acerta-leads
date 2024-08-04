@@ -46,3 +46,29 @@ export const Table = styled.table`
     background-color: #0056b3;
   }
 `;
+
+export const Pagination = styled.div`
+  max-width: 1082px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+
+  button {
+    padding: 12px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  button:disabled {
+    opacity: 0.5;
+  }
+`;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormikProps, withFormik } from 'formik';
+import * as Yup from 'yup';
 import * as C from './styles';
 import Input from '../../Input';
 import { useNavigate } from 'react-router-dom';
@@ -16,12 +17,23 @@ interface Props {
 }
 
 const ContactData = (props: FormikProps<FormValues> & Props) => {
-  const { values, handleChange, handleBlur, handleSubmit } = props;
-
+  const {
+    values,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    errors,
+    touched,
+    isSubmitting,
+  } = props;
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate('/');
+  };
+
+  const isButtonDisabled = () => {
+    return isSubmitting || !values.email || !values.phone;
   };
 
   return (
@@ -35,6 +47,7 @@ const ContactData = (props: FormikProps<FormValues> & Props) => {
           onBlur={handleBlur}
           value={values.email || ''}
           name="email"
+          error={touched.email ? errors.email : undefined}
         />
 
         <Input
@@ -46,20 +59,37 @@ const ContactData = (props: FormikProps<FormValues> & Props) => {
           onBlur={handleBlur}
           value={values.phone || ''}
           name="phone"
+          error={touched.phone ? errors.phone : undefined}
         />
       </C.Wrapper>
 
       <C.WrapperEnd>
         <C.ButtonCancel onClick={handleClick}>Cancelar</C.ButtonCancel>
-        <C.ButtonNextStep type="submit">Cadastrar</C.ButtonNextStep>
+        <C.ButtonNextStep type="submit" disabled={isButtonDisabled()}>
+          Cadastrar
+        </C.ButtonNextStep>
       </C.WrapperEnd>
     </C.Form>
   );
 };
 
+const validationSchema = Yup.object().shape({
+  email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
+  phone: Yup.string()
+    .matches(/^\(\d{2}\) \d{5}-\d{4}$/, 'Telefone inválido')
+    .required('Telefone é obrigatório'),
+});
+
 const EnhancedFormContactData = withFormik<Props, FormValues>({
-  handleSubmit: (values, { props: { onSubmit } }) => {
-    onSubmit(values);
+  validationSchema: validationSchema,
+  handleSubmit: async (values, { props: { onSubmit }, setSubmitting }) => {
+    try {
+      await onSubmit(values);
+    } finally {
+      setTimeout(() => {
+        setSubmitting(false);
+      }, 5000);
+    }
   },
   mapPropsToValues: ({ values }) => ({
     email: values.email || '',

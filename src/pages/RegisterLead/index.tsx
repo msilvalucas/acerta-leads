@@ -37,15 +37,21 @@ function RegisterLead() {
     phone: '',
   });
 
+  const [loading, setLoading] = useState(true); // Adiciona estado de loading
+
   useEffect(() => {
     if (id) {
       fetchLeadById(id)
         .then((lead) => {
           setValues(lead);
+          setLoading(false); // Dados carregados, desativa o loading
         })
         .catch((error) => {
           toast.error('Erro ao carregar lead: ' + error.message);
+          setLoading(false); // Em caso de erro, desativa o loading
         });
+    } else {
+      setLoading(false); // Se não houver id, desativa o loading imediatamente
     }
   }, [id]);
 
@@ -57,7 +63,7 @@ function RegisterLead() {
           updateLead(id, updatedValues)
             .then(() => {
               toast.success('Lead atualizado com sucesso!');
-              navigate('/');
+              setTimeout(() => navigate('/'), 5000);
             })
             .catch((error) => {
               toast.error('Erro ao atualizar lead: ' + error.message);
@@ -66,7 +72,7 @@ function RegisterLead() {
           createLead(updatedValues)
             .then(() => {
               toast.success('Lead cadastrado com sucesso!');
-              navigate('/');
+              setTimeout(() => navigate('/'), 5000);
             })
             .catch((error) => {
               toast.error('Erro ao cadastrar lead: ' + error.message);
@@ -79,6 +85,10 @@ function RegisterLead() {
       return updatedValues;
     });
   };
+
+  if (loading) {
+    return <div>Carregando...</div>; // Exibe mensagem de carregamento
+  }
 
   return (
     <C.Container>
