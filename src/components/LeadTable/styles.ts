@@ -20,7 +20,7 @@ export const Table = styled.table`
   }
 
   tr:nth-child(even) {
-    background-color: #ff;
+    background-color: #f5f6fa;
   }
 
   button {

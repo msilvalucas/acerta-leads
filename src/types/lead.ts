@@ -9,3 +9,8 @@ export type Lead = {
   email: string;
   phone: string;
 };
+
+export interface LeadFilters {
+  suid: string;
+  name: string;
+}

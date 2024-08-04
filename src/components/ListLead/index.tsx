@@ -1,30 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import LeadTable from './../LeadTable';
-import { Lead } from '../../types/lead';
+import { Lead, LeadFilters } from '../../types/lead';
 import * as C from './styles';
 import { toast } from 'react-toastify';
 import { deleteLead, fetchLeads } from '../../services/leads';
+import { FilterLead } from '../FilterLead';
 
 const ListLead: React.FC = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [filters, setFilters] = useState<LeadFilters>({ suid: '', name: '' });
+
+  const loadLeads = async (filters: LeadFilters) => {
+    try {
+      setLoading(true);
+      const leadsData = await fetchLeads(filters);
+      setLeads(leadsData);
+      if (leadsData.length === 0 && filters && (filters.suid || filters.name)) {
+        setFilters({ suid: '', name: '' });
+        const allLeadsData = await fetchLeads(filters);
+        setLeads(allLeadsData);
+      }
+    } catch (err) {
+      setError('Erro ao listar leads.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const loadLeads = async () => {
-      try {
-        setLoading(true);
-        const leadsData = await fetchLeads();
-        setLeads(leadsData);
-      } catch (err) {
-        setError('Failed to load leads.');
-      } finally {
-        setLoading(false);
-      }
-    };
+    loadLeads(filters);
+  }, [filters]);
 
-    loadLeads();
-  }, []);
+  const handleFilter = (newFilters: LeadFilters) => {
+    setFilters(newFilters);
+  };
 
   const handleEdit = (lead: Lead) => {
     console.log('Edit lead:', lead);
@@ -55,13 +66,20 @@ const ListLead: React.FC = () => {
     );
 
   return (
-    <C.Container>
-      {leads.length === 0 ? (
-        <p>Nenhum lead cadastrado</p>
-      ) : (
-        <LeadTable leads={leads} onEdit={handleEdit} onDelete={handleDelete} />
-      )}
-    </C.Container>
+    <>
+      <FilterLead onFilter={handleFilter} />
+      <C.Container>
+        {leads.length === 0 ? (
+          <p>Nenhum lead cadastrado</p>
+        ) : (
+          <LeadTable
+            leads={leads}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        )}
+      </C.Container>
+    </>
   );
 };
 
