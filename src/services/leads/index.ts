@@ -2,15 +2,8 @@ import axios from 'axios';
 import { API_URL } from '../api';
 import { Lead } from '../../types/lead';
 
-export interface LeadFilters {
-  cpf?: string;
-  name?: string;
-}
-
-export const fetchLeads = async (filters: LeadFilters) => {
-  const response = await axios.get<Lead[]>(API_URL, {
-    params: filters,
-  });
+export const fetchLeads = async () => {
+  const response = await axios.get<Lead[]>(API_URL);
   return response.data;
 };
 

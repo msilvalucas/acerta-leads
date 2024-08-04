@@ -1,1 +1,1 @@
-export const API_URL = 'https://acerta-leads-api.vercel.app/leads';
+export const API_URL = 'https://acerta-api.onrender.com/leads';

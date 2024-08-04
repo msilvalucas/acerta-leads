@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import LeadTable from './../LeadTable';
 import { Lead, LeadFilters } from '../../types/lead';
 import * as C from './styles';
@@ -16,10 +16,10 @@ const ListLead: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const loadLeads = async () => {
+  const loadLeads = useCallback(async () => {
     try {
       setLoading(true);
-      const leadsData = await fetchLeads(filters);
+      const leadsData = await fetchLeads();
       setLeads(leadsData);
       setFilteredLeads(leadsData);
     } catch (err) {
@@ -27,7 +27,7 @@ const ListLead: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const applyFilters = (leads: Lead[], filters: LeadFilters) => {
     const { suid, name } = filters;
@@ -45,7 +45,7 @@ const ListLead: React.FC = () => {
 
   useEffect(() => {
     loadLeads();
-  }, []);
+  }, [loadLeads]);
 
   useEffect(() => {
     const newFilteredLeads = applyFilters(leads, filters);
