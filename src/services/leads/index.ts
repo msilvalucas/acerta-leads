@@ -1,17 +1,17 @@
 import axios from 'axios';
-import { API_URL } from '../api';
+
 import { Lead } from '../../types/lead';
+import { API_URL } from '../api';
 
-export interface LeadFilters {
-  cpf?: string;
-  name?: string;
-}
-
-export const fetchLeads = async (filters: LeadFilters) => {
-  const response = await axios.get<Lead[]>(API_URL, {
-    params: filters,
-  });
-  return response.data;
+export const fetchLeads = async () => {
+  try {
+    const response = await axios.get(API_URL);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao buscar leads:', error);
+    throw error;
+  }
 };
 
 export const fetchLeadById = async (id: string) => {
