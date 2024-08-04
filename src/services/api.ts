@@ -1,1 +1,1 @@
-export const API_URL = 'http://localhost:3333/leads';
+export const API_URL = 'https://acerta-api.onrender.com/leads';
