@@ -1,17 +1,17 @@
-// src/pages/RegisterLead/index.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EnhancedFormPersonalData from '../../components/FormRegisterLead/PersonalData';
 import EnhancedFormContactData from '../../components/FormRegisterLead/ContactData';
 import { StepperProvider, useStepper } from '../../hooks/useStepper';
 import GlobalStyle from '../../styles/GlobalStyles';
 import withProvider from '../../utils/withProvider';
 import * as C from './styles';
+import Logo from './../../assets/logo.svg';
 import { Lead } from '../../types/lead';
-import { createLead } from '../../services/leads';
+import { createLead, updateLead, fetchLeadById } from '../../services/leads';
 import { toast, ToastContainer } from 'react-toastify';
 
 import { v4 as uuidv4 } from 'uuid';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const generateId = () => uuidv4();
 
@@ -25,6 +25,7 @@ function RegisterLead() {
   const StepComponent = steps[currentStep].component;
 
   const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
 
   const [values, setValues] = useState<Lead>({
     id: generateId(),
@@ -36,18 +37,41 @@ function RegisterLead() {
     phone: '',
   });
 
+  useEffect(() => {
+    if (id) {
+      fetchLeadById(id)
+        .then((lead) => {
+          setValues(lead);
+        })
+        .catch((error) => {
+          toast.error('Erro ao carregar lead: ' + error.message);
+        });
+    }
+  }, [id]);
+
   const handleStepSubmit = async (newValues: Partial<Lead>) => {
     setValues((prevValues) => {
       const updatedValues = { ...prevValues, ...newValues };
       if (currentStep === steps.length - 1) {
-        createLead(updatedValues)
-          .then(() => {
-            toast.success('Lead cadastrado com sucesso!');
-            navigate('/');
-          })
-          .catch((error) => {
-            toast.error('Erro ao cadastrar lead: ' + error.message);
-          });
+        if (id) {
+          updateLead(id, updatedValues)
+            .then(() => {
+              toast.success('Lead atualizado com sucesso!');
+              navigate('/');
+            })
+            .catch((error) => {
+              toast.error('Erro ao atualizar lead: ' + error.message);
+            });
+        } else {
+          createLead(updatedValues)
+            .then(() => {
+              toast.success('Lead cadastrado com sucesso!');
+              navigate('/');
+            })
+            .catch((error) => {
+              toast.error('Erro ao cadastrar lead: ' + error.message);
+            });
+        }
       } else {
         completeStep();
         nextStep();
@@ -60,7 +84,8 @@ function RegisterLead() {
     <C.Container>
       <GlobalStyle />
       <ToastContainer />
-      <C.Title>Cadastro de Leads</C.Title>
+      <Logo />
+      <C.Title>{id ? 'Editar Lead' : 'Cadastro de Leads'}</C.Title>
       <C.Card>
         <C.WrapperEllipse>
           {steps.map((step, index) => (

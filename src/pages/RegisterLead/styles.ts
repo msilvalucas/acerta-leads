@@ -14,6 +14,7 @@ export const Title = styled.h1`
   font-weight: 600px;
   line-height: 120%;
   font-style: normal;
+  margin: 24px 0;
 `;
 
 export const Card = styled.div`

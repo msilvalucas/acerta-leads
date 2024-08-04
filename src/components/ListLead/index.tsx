@@ -5,6 +5,7 @@ import * as C from './styles';
 import { toast } from 'react-toastify';
 import { deleteLead, fetchLeads } from '../../services/leads';
 import { FilterLead } from '../FilterLead';
+import { useNavigate } from 'react-router-dom';
 
 const ListLead: React.FC = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -12,16 +13,13 @@ const ListLead: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<LeadFilters>({ suid: '', name: '' });
 
+  const navigate = useNavigate();
+
   const loadLeads = async (filters: LeadFilters) => {
     try {
       setLoading(true);
       const leadsData = await fetchLeads(filters);
       setLeads(leadsData);
-      if (leadsData.length === 0 && filters && (filters.suid || filters.name)) {
-        setFilters({ suid: '', name: '' });
-        const allLeadsData = await fetchLeads(filters);
-        setLeads(allLeadsData);
-      }
     } catch (err) {
       setError('Erro ao listar leads.');
     } finally {
@@ -38,8 +36,7 @@ const ListLead: React.FC = () => {
   };
 
   const handleEdit = (lead: Lead) => {
-    console.log('Edit lead:', lead);
-    // Adicione a lógica para editar o lead
+    navigate(`/register-lead/${lead.id}`);
   };
 
   const handleDelete = async (id: string) => {

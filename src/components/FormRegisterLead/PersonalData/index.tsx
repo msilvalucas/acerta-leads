@@ -1,3 +1,4 @@
+// src/components/FormRegisterLead/PersonalData/index.tsx
 import React from 'react';
 import { FormikProps, withFormik } from 'formik';
 import * as C from './styles';

@@ -14,7 +14,7 @@ export const fetchLeads = async (filters: LeadFilters) => {
   return response.data;
 };
 
-export const fetchLeadById = async (id: number) => {
+export const fetchLeadById = async (id: string) => {
   const response = await axios.get<Lead>(`${API_URL}/${id}`);
   return response.data;
 };
@@ -24,7 +24,7 @@ export const createLead = async (lead: Lead) => {
   return response.data;
 };
 
-export const updateLead = async (id: number, lead: Lead) => {
+export const updateLead = async (id: string, lead: Lead) => {
   const response = await axios.put<Lead>(`${API_URL}/${id}`, lead);
   return response.data;
 };

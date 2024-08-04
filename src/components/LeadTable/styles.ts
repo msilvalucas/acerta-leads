@@ -15,6 +15,15 @@ export const Table = styled.table`
     border-bottom: 1px solid #ddd;
   }
 
+  td:last-child {
+    width: 130px;
+
+    & button {
+      border-radius: 50%;
+      background: transparent;
+    }
+  }
+
   th {
     background-color: #f4f5f7;
   }

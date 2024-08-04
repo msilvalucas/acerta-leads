@@ -1,3 +1,4 @@
+import React from 'react';
 import { FormikProps, withFormik } from 'formik';
 import * as C from './styles';
 import Input from '../../Input';
@@ -10,63 +11,60 @@ interface FormValues {
 
 interface Props {
   onSubmit: (data: FormValues) => void;
+  values: FormValues;
+  setValues: React.Dispatch<React.SetStateAction<FormValues>>;
 }
 
-function ContactData(props: FormikProps<FormValues> & Props) {
+const ContactData = (props: FormikProps<FormValues> & Props) => {
   const { values, handleChange, handleBlur, handleSubmit } = props;
 
   const navigate = useNavigate();
+
   const handleClick = () => {
     navigate('/');
   };
 
   return (
     <C.Form onSubmit={handleSubmit}>
-      <C.ContactInfo>
-        <C.Title>Dados de Contato</C.Title>
-      </C.ContactInfo>
-
       <C.Wrapper>
         <Input
-          type="email"
-          label="E-mail"
+          type="text"
+          label="Email"
           placeholder="Digite o e-mail do cliente"
           onChange={handleChange}
           onBlur={handleBlur}
-          value={values.email}
+          value={values.email || ''}
           name="email"
         />
+
         <Input
-          type="tel"
+          type="text"
           label="Telefone"
-          mask="(99) 99999-9999"
           placeholder="Digite o telefone do cliente"
+          mask="(99) 99999-9999"
           onChange={handleChange}
           onBlur={handleBlur}
-          value={values.phone}
+          value={values.phone || ''}
           name="phone"
         />
       </C.Wrapper>
 
       <C.WrapperEnd>
-        <C.ButtonCancel type="button" onClick={handleClick}>
-          Cancelar
-        </C.ButtonCancel>
-        <C.ButtonNextStep type="submit">Avançar</C.ButtonNextStep>
+        <C.ButtonCancel onClick={handleClick}>Cancelar</C.ButtonCancel>
+        <C.ButtonNextStep type="submit">Cadastrar</C.ButtonNextStep>
       </C.WrapperEnd>
     </C.Form>
   );
-}
+};
 
 const EnhancedFormContactData = withFormik<Props, FormValues>({
-  mapPropsToValues: () => ({
-    email: '',
-    phone: '',
-  }),
   handleSubmit: (values, { props: { onSubmit } }) => {
-    console.log(values);
     onSubmit(values);
   },
+  mapPropsToValues: ({ values }) => ({
+    email: values.email || '',
+    phone: values.phone || '',
+  }),
 })(ContactData);
 
 export default EnhancedFormContactData;
