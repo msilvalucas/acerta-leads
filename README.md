@@ -2,8 +2,6 @@
 
 Acerta Leads seu sistema para gerenciar leads.
 
-[Acesse agora, tem Dark mode 🌙](https://cronos-nu.vercel.app/)
-
 <h1 align="center">
     <img alt="Acerta leads" src="./src/assets/acerta-leads.png" width="100%" />
 </h1>
