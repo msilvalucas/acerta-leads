@@ -2,9 +2,8 @@
 
 Acerta Leads seu sistema para gerenciar leads.
 
-<h1 align="center">
-    <img alt="Acerta leads" src="./src/assets/acerta-leads.png" width="100%" />
-</h1>
+![image](https://github.com/user-attachments/assets/c8f1c91c-902f-45c3-9103-71e25ecd4986)
+
 
 ## 💻 Objetivo da aplicação
 
